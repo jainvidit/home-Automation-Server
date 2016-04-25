@@ -10,6 +10,7 @@ from flask_admin.contrib.sqla import ModelView
 
 from home_automation.models import db
 from home_automation.models.user import User
+from home_automation.models.location import Location
 from home_automation.views.model_views.user import UserView
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,6 +29,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://my_user:marullz..@localhost:5432/test"
     admin = Admin(app, name='Home Automation', template_mode='bootstrap3')
     admin.add_view(UserView(User, db.session))
+    admin.add_view(ModelView(Location, db.session))
     return app, manager, db
 
 
