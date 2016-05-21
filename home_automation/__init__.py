@@ -20,8 +20,8 @@ def create_app():
     app = Flask(__name__)
     from home_automation.views import app as routes
     app.register_blueprint(routes)
-    Migrate(app, db)
 
+    Migrate(app, db)
     db.init_app(app)
     manager = Manager(app)
     manager.add_command('db', MigrateCommand)
