@@ -23,12 +23,12 @@ class User(db.Model):
             print "none"
             return
         print password
-        self.password = hashlib.md5(password).digest()
+        self.password = hashlib.md5(password).hexdigest()
         print self.password
 
     def check_password(self, password):
-        print hashlib.md5(password).digest()
-        return self.password == hashlib.md5(password).digest()
+        print hashlib.md5(password).hexdigest()
+        return self.password == hashlib.md5(password).hexdigest()
 
     @property
     def serialize(self):
