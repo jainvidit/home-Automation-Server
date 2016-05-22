@@ -19,13 +19,11 @@ class Location(db.Model):
                  name=None,
                  latitude=None,
                  longitude=None,
-                 floor=None,
-                 event_id=None,
-                 room=None):
+                 user_id=None):
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
-        self.event_id = event_id
+        self.user_id = user_id
 
     def __repr__(self):
         return '<Location %r>' % (self.name)
