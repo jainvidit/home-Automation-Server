@@ -4,7 +4,6 @@ from flask import jsonify
 from home_automation.models.user import User
 from home_automation.models.location import Location
 
-
 app = Blueprint('', __name__)
 
 
@@ -14,9 +13,9 @@ def hello_world():
 
 
 def valid_login(email, password):
-    #TODO: use check_password from user class to chack for password(after bug fix)
-    if User.query.filter_by(email=email,password=password).first() != None:
-        return True
+    user =  User.query.filter_by(email=email).first()
+    if user != None:
+        return user.check_password(password)
     return False
 
 
@@ -25,12 +24,11 @@ def get_user_details(email_id):
     user_detail = {'user_id':user.id,'user_name':user.name,'user_email':email_id}
     locations = Location.query.filter_by(user_id=user.id).all()
     location_ids = []
-    print type(locations[0])
     for location in locations:
         location_ids.append(location.id)
-    print "loop done"
     user_detail['locations']=location_ids
     return user_detail
+
 
 @app.route('/login', methods=['POST'])
 def login():
