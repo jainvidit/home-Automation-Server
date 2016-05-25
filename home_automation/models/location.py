@@ -26,7 +26,7 @@ class Location(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return '<Location %r>' % (self.name)
+        return '<Location %r,%r>' % (self.id,self.name)
 
     @property
     def serialize(self):

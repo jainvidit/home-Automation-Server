@@ -1,8 +1,10 @@
 from flask import Blueprint
-from flask import request
 from flask import jsonify
-from home_automation.models.user import User
-from home_automation.models.location import Location
+from flask import request
+
+from home_automation.utilities.location import get_device_ids_for_location
+from home_automation.utilities.user import get_location_ids_for_user
+from home_automation.views.login import login
 
 app = Blueprint('', __name__)
 
@@ -12,39 +14,26 @@ def hello_world():
     return 'Hello World!'
 
 
-def valid_login(email, password):
-    user =  User.query.filter_by(email=email).first()
-    if user != None:
-        return user.check_password(password)
-    return False
-
-
-def get_user_details(email_id):
-    user = User.query.filter_by(email=email_id).first()
-    user_detail = {'user_id':user.id,'user_name':user.name,'user_email':email_id}
-    locations = Location.query.filter_by(user_id=user.id).all()
-    location_ids = []
-    for location in locations:
-        location_ids.append(location.id)
-    user_detail['locations']=location_ids
-    return user_detail
-
-
 @app.route('/login', methods=['POST'])
-def login():
-    login_success = False
-    user_details = None
-    print "Login Request : ", request
-    if 'email' in request.form:
-        email = request.form['email']
-        print email
-        if 'password' in request.form:
-            password = request.form['password']
-            print password
-            if valid_login(email, password):
-                print "get details"
-                user_details = get_user_details(email)
-                print "got details"
-                login_success = True
-    response = {'success': login_success, 'details': user_details}
-    return jsonify(response)
+def login_view():
+    return login(request)
+
+
+@app.route('/locations', methods=['GET'])
+def get_location_list_for_user_id():
+    if 'user_id' in request.args:
+        user_id = request.args.get('user_id')
+        locations = get_location_ids_for_user(user_id)
+        response = {"location_list": locations}
+        json_response = jsonify(response)
+        return json_response
+
+
+@app.route('/devices', methods=['GET'])
+def get_device_list_for_user_id():
+    if 'location_id' in request.args:
+        location_id = request.args.get('location_id')
+        devices = get_device_ids_for_location(location_id)
+        response = {"device_list" : devices}
+        json_response = jsonify(response)
+        return json_response
