@@ -13,7 +13,7 @@ class UserView(ModelView):
             password = ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(10))
             subject = 'Login Credentials for Morld Account'
             message_content = "Your Login credentials are as below \r\n\r\n"\
-                              + "Username : " + model.email + "\r\nPassword:" + password +\
+                              + "Username : " + model.email + "\r\nPassword : " + password +\
                               "\r\n\r\nRegards,\r\nMorld Team"
             send_mail(model.email,subject,message_content)
             model.set_password(password)

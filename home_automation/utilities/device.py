@@ -7,12 +7,13 @@ def get_status_for_device(device_id):
     status = device.status
     return status
 
+
 def set_status_for_device(device_id, status):
-	device = Device.query.get(device_id)
-	device.status = bool(status)
-	try:
-		db.session.commit()
-		return True
-	except Exception, e:
-		print(e)
-		return False
+    device = Device.query.get(device_id)
+    device.status = bool(status)
+    try:
+        db.session.commit()
+        return True
+    except Exception, e:
+        print(e)
+        return False
