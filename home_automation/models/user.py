@@ -16,7 +16,7 @@ class User(db.Model):
         self.set_password(password)
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return '<User %r %r>' % (self.id,self.email)
 
     def set_password(self, password):
         if password == None:
