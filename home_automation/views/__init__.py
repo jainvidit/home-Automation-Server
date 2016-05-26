@@ -20,24 +20,20 @@ def login_view():
     return login(request)
 
 
-@app.route('/locations', methods=['GET'])
-def get_location_list_for_user_id():
-    if 'user_id' in request.args:
-        user_id = request.args.get('user_id')
-        locations = get_location_ids_for_user(user_id)
-        response = {"location_list": locations}
-        json_response = jsonify(response)
-        return json_response
+@app.route('/user/<user_id>/locations', methods=['GET'])
+def get_location_list_for_user_id(user_id):
+    locations = get_location_ids_for_user(user_id)
+    response = {"location_list": locations}
+    json_response = jsonify(response)
+    return json_response
 
 
-@app.route('/devices', methods=['GET'])
+@app.route('/location/<location_id>/devices', methods=['GET'])
 def get_device_list_for_user_id():
-    if 'location_id' in request.args:
-        location_id = request.args.get('location_id')
-        devices = get_device_ids_for_location(location_id)
-        response = {"device_list": devices}
-        json_response = jsonify(response)
-        return json_response
+    devices = get_device_ids_for_location(location_id)
+    response = {"device_list": devices}
+    json_response = jsonify(response)
+    return json_response
 
 
 @app.route('/device/<int:device_id>/get_status', methods=['GET'])
