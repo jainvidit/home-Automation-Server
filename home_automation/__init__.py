@@ -1,5 +1,5 @@
 import logging
-import os.path
+import os
 import sys
 
 from flask import Flask
@@ -27,7 +27,7 @@ def create_app():
     manager = Manager(app)
     manager.add_command('db', MigrateCommand)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://my_user:marullz..@localhost:5432/test"
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     admin = Admin(app, name='Home Automation', template_mode='bootstrap3')
     admin.add_view(UserView(User, db.session))
     admin.add_view(ModelView(Location, db.session))
