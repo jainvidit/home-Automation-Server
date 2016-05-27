@@ -1,10 +1,11 @@
 from flask import Blueprint
 from flask import jsonify
 from flask import request
+import json
 
 from home_automation.utilities.device import *
-from home_automation.utilities.location import get_device_ids_for_location
-from home_automation.utilities.user import get_location_ids_for_user
+from home_automation.utilities.location import get_devices_for_location
+from home_automation.utilities.user import get_locations_for_user
 from home_automation.views.login import login
 
 app = Blueprint('', __name__)
@@ -22,17 +23,16 @@ def login_view():
 
 @app.route('/user/<user_id>/locations', methods=['GET'])
 def get_location_list_for_user_id(user_id):
-    locations = get_location_ids_for_user(user_id)
-    response = {"location_list": locations}
-    json_response = jsonify(response)
+    locations = get_locations_for_user(user_id)
+    json_response = json.dumps(locations)
     return json_response
 
 
 @app.route('/location/<location_id>/devices', methods=['GET'])
-def get_device_list_for_user_id():
-    devices = get_device_ids_for_location(location_id)
-    response = {"device_list": devices}
-    json_response = jsonify(response)
+def get_device_list_for_user_id(location_id):
+    devices = get_devices_for_location(location_id)
+    print(devices)
+    json_response = json.dumps(devices)
     return json_response
 
 
