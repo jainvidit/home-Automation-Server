@@ -19,6 +19,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def create_app():
     print("app init")
     app = Flask(__name__)
+    app.secret_key = 'super secret key'
+    app.config['SESSION_TYPE'] = 'filesystem'
     from home_automation.views import app as routes
     app.register_blueprint(routes)
 
