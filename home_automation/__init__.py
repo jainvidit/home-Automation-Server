@@ -12,6 +12,7 @@ from home_automation.models import db
 from home_automation.models.user import User
 from home_automation.models.location import Location
 from home_automation.models.device import Device
+from home_automation.views.model_views.device import DeviceView
 from home_automation.views.model_views.user import UserView
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,7 +34,7 @@ def create_app():
     admin = Admin(app, name='Home Automation', template_mode='bootstrap3')
     admin.add_view(UserView(User, db.session))
     admin.add_view(ModelView(Location, db.session))
-    admin.add_view(ModelView(Device, db.session))
+    admin.add_view(DeviceView(Device, db.session))
     return app, manager, db
 
 
